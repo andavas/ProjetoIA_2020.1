@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 vertice = [(0,'Bogotá'),
            (1,"Quito"),
            (2,"Lima"),
@@ -18,23 +19,23 @@ aresta = [[0,728,0,1783,2435,0,0,0,0],
           [0,0,0,0,2236,0,2582,0,1137],
           [0,0,0,0,1904,2239,1673,0,0]]
 
-heuristica = [[0,728,1879,1783,2435,3663,4319,4249,4659],
-              [728,0,1326,2081,2138,3777,4308,3788,4359],
+heuristica = [[0,728,1879,1783,2435,3663,4319,4249,4659], # 0 = bogota
+              [728,0,1326,2081,2138,3777,4308,3788,4359], # 1 = quito
               [1879,1326,0,2119,1077,3165,3451,2470,3137],
               [1783,2081,2119,0,1733,1932,2689,3552,3505],
               [2435,2138,1077,1733,0,2161,2376,1904,2236],
               [3663,3777,3165,1932,2161,0,876,3010,2339],
               [4319,4308,3451,2689,2376,876,0,2582,1673],
               [4249,3788,2470,3552,1904,3010,2582,0,1137],
-              [4659,4359,3137,3505,2236,2339,1673,1137,0]]
+              [4659,4359,3137,3505,2236,2339,1673,1137,0]] # 9 = quito
 
 auxiliarVertice = []
 auxiliarHeuristica = []
 caminho = []
 cheguei = False
 
-partida = 5
-fim = 5
+partida = 6
+fim = 3
 
 caminho.append(partida)
 
@@ -62,7 +63,6 @@ while not cheguei:
             if aresta[cidadeAtual][i] != 0:
                 if i not in caminho:
                     auxiliarVertice.append(i)
-    
         if len(auxiliarVertice) == 0:
             break 
 
@@ -70,11 +70,10 @@ while not cheguei:
             if heuristica[fim][i] == 0:
                 cheguei=True
                 caminho.append(i)
-                break
             else:
                 auxiliarHeuristica.append((i,heuristica[fim][i]))
-
-        temp = buscarMenor(auxiliarHeuristica)
+        if len(auxiliarVertice) != 0: 
+            temp = buscarMenor(auxiliarHeuristica)
         
         if not cheguei:
             caminho.append(temp)
