@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from main import *
 
 app = Tk()
 app.title("Busca Gulosa")
@@ -19,7 +20,7 @@ lb_destino.place(x=180, y=5)
 cb_destino = ttk.Combobox(app, values=listaCidades)
 cb_destino.place(x=180, y=30)
 
-botao_1 = Button(app, width=8, text="Buscar", command="buscar", background="gray")
+botao_1 = Button(app, width=8, text="Buscar", command=buscarRota(cb_destino.get(),cb_destino.get()), background="gray")
 botao_1.place(x=330, y=28)
 
 #Componente para exibir o mapa e rota encontrada
@@ -43,7 +44,7 @@ Santiago = [134, 442]
 buenoAires = [240,410]
 
 #rsequencia de cidades (será retornado a partir do main)
-caminho = [0, 4, 7]
+caminho = [0, 0]
 
 #transformando a caminho sequencia de pontos geometricos
 rota = []
