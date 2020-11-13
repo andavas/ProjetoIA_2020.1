@@ -38,17 +38,14 @@ def buscarRota(origem,destino):
     Iorigem = 0
     Idestino = 0
 
-    print(origem)
-    print(destino)
-
     for i,value in vertice:
         if value == origem:
             Iorigem = i
-        elif value == destino:
+        if value == destino:
             Idestino = i
 
     caminho.append(Iorigem)
-
+       
 
     while not cheguei:
 
@@ -59,7 +56,7 @@ def buscarRota(origem,destino):
 
         if cidadeAtual == Idestino:
             cheguei = True
-            
+
         else:
             for i in range(len(aresta[cidadeAtual])):
                 if aresta[cidadeAtual][i] != 0:
@@ -80,14 +77,7 @@ def buscarRota(origem,destino):
             if not cheguei:
                 caminho.append(temp)
 
-    nomeCidade = []
-
-    for i in range(len(caminho)):
-        for j, valor in vertice:
-            if(caminho[i] == j):
-                nomeCidade.append(valor)  
-
-    return nomeCidade
+    return caminho    
 
 def buscarMenor(lista):
     menor = lista[0]
