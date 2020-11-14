@@ -4,7 +4,7 @@ vertice = [(0, 'Bogotá'),
            (2, "Lima"),
            (3, "Manaus"),
            (4, "La Paz"),
-           (5, "Brasilia"),
+           (5, "Brasília"),
            (6, "São Paulo"),
            (7, "Santiago"),
            (8, "Buenos Aires")]
@@ -17,6 +17,7 @@ aresta = [[0, 728, 0, 1783, 2435, 0, 0, 0, 0],
           [0, 3777, 0, 1934, 0, 0, 876, 0, 2239],
           [0, 0, 0, 2689, 0, 876, 0, 2582, 1673],
           [0, 0, 0, 0, 2236, 0, 2582, 0, 1137],
+          [0, 0, 0, 0, 1904, 2239, 1673, 1139, 0],
           [0, 0, 0, 0, 1904, 2239, 1673, 0, 0]]
 
 heuristica = [[0, 728, 1879, 1783, 2435, 3663, 4319, 4249, 4659],
@@ -75,12 +76,15 @@ def buscarRota(origem, destino):
                     caminho.append(i)
                 else:
                     auxiliarHeuristica.append((i, heuristica[destino][i]))
+
+            if len(auxiliarVertice) != 0:
+                temp = buscarMenor(auxiliarHeuristica)
+            
             if len(auxiliarVertice) != 0:
                 temp = buscarMenor(auxiliarHeuristica)
 
             if not cheguei:
                 caminho.append(temp)
-
     return caminho
 
 
