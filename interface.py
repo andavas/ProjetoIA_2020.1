@@ -63,7 +63,7 @@ combobox_destino = ttk.Combobox(aplication, values=lista_de_cidades)
 combobox_destino.place(x=213, y=30)
 
 
-button_viajar = tk.Button(aplication, command=aoClicar, width=19, height=1, text="Viajar por Busca Gulosa")
+button_viajar = tk.Button(aplication, command=aoClicar, width=10, height=1, text="Buscar")
 button_viajar.place(x=416, y=25)
 
 canvas_mapa = tk.Canvas(width=570, height=701)

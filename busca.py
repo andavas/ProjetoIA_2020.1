@@ -54,13 +54,13 @@ heuristica = [[0, 728, 1879, 1783, 2435, 3663, 4319, 4249, 4659],   # 0 - Bogot�
 # e devolve uma lista com o nome das cidades
 
 def nomeToCodigo(origem, destino):
-    auxiliarVertice = [] 
+    auxiliarVertice = [0,0] 
 
-    for i, value in vertice:
+    for i, value in vertice:         
         if value == origem:
-            auxiliarVertice.append(i)
+            auxiliarVertice[0] = i
         if value == destino:
-            auxiliarVertice.append(i)
+            auxiliarVertice[1] = i
     return auxiliarVertice
 
 
@@ -114,7 +114,7 @@ def buscarRota(origem, destino):
 # recebe uma lista de tuplas, contendo o índice das cidades e suas distâncias até o destino,
 # devolve o índice da cidade com a menor distância entre o destino e 
 
-def buscarMenor(lista):
+def buscarMenor(lista):    
     menor = lista[0]
     for i, valor in lista:
         if valor < menor[1]:
