@@ -27,7 +27,7 @@ deletes = []
 def aoClicar():
     
     for i in deletes:
-        #se exister alguma rota desenhada no mapa ela será deletada antes de traçar outra rota
+        # se exister alguma rota desenhada no mapa ela será deletada antes de traçar outra rota
         canvas_mapa.delete(i)
    
     caminho = busca.nomeToCodigo(combobox_origem.get(), combobox_destino.get())
@@ -38,11 +38,11 @@ def aoClicar():
         rota.append(eixoXY[i][2])   
         rota.append(eixoXY[i][3])
 
-    if(len(rota)>2): #se a origem for diferente do destino, os pontos das cidades e a rota entre elas serão pintadas de azul
+    if(len(rota)>2): # se a origem for diferente do destino, os pontos das cidades e a rota entre elas serão pintadas de azul
         for i in range(len(caminho)-1):
             auxrota = rota[i*2:(i*2)+4]
 
-            #pintando as rotas entre as cidades percorridas de azul
+            # pintando as rotas entre as cidades percorridas de azul
             deletes.append(0)
             deletes[-1] = canvas_mapa.create_line(auxrota, fill="blue", width=3)
 
