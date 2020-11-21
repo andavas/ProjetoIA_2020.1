@@ -42,7 +42,7 @@ def aoClicar():
         for i in range(len(caminho)-1):
             auxrota = rota[i*2:(i*2)+4]
 
-            # pintando as rotas entre as cidades percorridas de azul
+            #pintando as rotas entre as cidades percorridas de azul
             deletes.append(0)
             deletes[-1] = canvas_mapa.create_line(auxrota, fill="blue", width=3)
 
