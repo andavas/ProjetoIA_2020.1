@@ -121,3 +121,11 @@ def buscarMenor(lista):
             menor = (i, valor)
 
     return menor[0]
+
+
+# [8,5,1,2]
+def calculaCusto(caminho):
+    aux = 0
+    for i in range(len(caminho)-1):
+        aux = aresta[caminho[i]][caminho[i+1]] + aux
+    return aux
