@@ -1,7 +1,7 @@
 import tkinter as tk        #utilizada para os objetos da janela
 from tkinter import ttk     #utilizada no objeto combobox
 from tkinter import font    #utilizado para os objetos de fontes
-import busca as busca       #arquivo com algoritmo da busca gulosa
+import busca as Algoritmo       #arquivo com algoritmo da busca gulosa
 
 # definindo coordenadas das cidades no plano cartesiano (mapa)
 # ORDEM:
@@ -81,9 +81,9 @@ label_destino.place(x=213, y=5)                                     #posição d
 combobox_destino = ttk.Combobox(aplication, values=lista_de_cidades)#combobox com as opções de cidades de onde a busca irá finalizar
 combobox_destino.place(x=213, y=30)                                 #posição do combobox na tela    
 
-text_custo = tk.StringVar()
+text_custo = tk.StringVar()               
 text_custo.set("Custo: ") 
-label_custo = tk.Label(aplication, textvariable=text_custo)                  #label exibido como descrição do custo da rota
+label_custo = tk.Label(aplication, textvariable=text_custo)         #label exibido como descrição do custo da rota         
 label_custo.place(x=416, y=5)
 
 # botão que executar a função "aoClicar"
