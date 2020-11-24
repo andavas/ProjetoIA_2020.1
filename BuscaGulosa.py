@@ -1,7 +1,7 @@
 import tkinter as tk        #utilizada para os objetos da janela
 from tkinter import ttk     #utilizada no objeto combobox
 from tkinter import font    #utilizado para os objetos de fontes
-import busca as Algoritmo       #arquivo com algoritmo da busca gulosa
+import Algoritmo as busca       #arquivo com algoritmo da busca gulosa
 
 # definindo coordenadas das cidades no plano cartesiano (mapa)
 # ORDEM:
@@ -94,7 +94,7 @@ button_viajar.place(x=416, y=25) #posição do botão na tela
 canvas_mapa = tk.Canvas(width=570, height=701) #definição do tamanho do canvas
 canvas_mapa.place(x=10, y=60), #posição do canvas na tela
 
-imagem_mapa = tk.PhotoImage(file="imagem/mapa.png") # carregando a imagem do mapa
+imagem_mapa = tk.PhotoImage(file="mapa.png") # carregando a imagem do mapa
 canvas_mapa.create_image(0, 0, image=imagem_mapa, anchor='nw') #adicionando a imagem do mapa ao canvas
 
 #definindo tipo e tamanho da fonte utilizada no mapa
