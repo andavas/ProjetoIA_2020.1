@@ -32,12 +32,10 @@ def aoClicar():
    
     caminho = busca.nomeToCodigo(combobox_origem.get(), combobox_destino.get())
     caminho = busca.buscarRota(caminho[0], caminho[1])
+    
     custo = busca.calculaCusto(caminho)
     custo = 'Custo: '+str(custo)+' km'
-    label_custo = tk.Label(aplication, text=custo)                 #label exibido como descrição do custo da rota
-    label_custo.place(x=416, y=5)
-    deletes.append(0)
-    deletes[-1] = label_custo  
+    text_custo.set(custo) 
 
     rota = []                       # armazena cidades que serão percorridas
     for i in caminho:               # busca coordenadas das cidades que serão percorridas
@@ -82,7 +80,10 @@ label_destino = tk.Label(aplication, text="Destino:")               #label exibi
 label_destino.place(x=213, y=5)                                     #posição do label na tela
 combobox_destino = ttk.Combobox(aplication, values=lista_de_cidades)#combobox com as opções de cidades de onde a busca irá finalizar
 combobox_destino.place(x=213, y=30)                                 #posição do combobox na tela    
-label_custo = tk.Label(aplication, text='Custo: ')                  #label exibido como descrição do custo da rota
+
+text_custo = tk.StringVar()
+text_custo.set("Custo: ") 
+label_custo = tk.Label(aplication, textvariable=text_custo)                  #label exibido como descrição do custo da rota
 label_custo.place(x=416, y=5)
 
 # botão que executar a função "aoClicar"
