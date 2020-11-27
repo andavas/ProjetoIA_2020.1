@@ -10,24 +10,49 @@ import Algoritmo as busca       #arquivo com algoritmo da busca gulosa
 # posição (x, y) do ponto da cidade
 # posição (x, y) do nome da cidade
 
-eixoXY = [(0, 'Bogotá', 140, 161, 140, 145),
-          (1, "Quito", 95, 208, 65, 208),
-          (2, "Lima", 115, 300, 90, 298),
-          (3, "Manaus",  250, 185, 270, 170),
-          (4, "La Paz", 195, 285, 160, 277),
-          (5, "Brasília", 290, 293, 255, 295),
-          (6, "São Paulo", 387, 380, 435, 380),
-          (7, "Santiago", 178, 515, 178, 540),
-          (8, "Buenos Aires", 270, 485, 333, 480)]
+eixoXY = [(0, 'Bogotá', 140, 161, 140, 145, 140, 128),
+          (1, "Quito", 95, 208, 65, 208, 65, 225),
+          (2, "Lima", 115, 300, 90, 298, 90, 315),
+          (3, "Manaus",  250, 185, 270, 170, 270, 152),
+          (4, "La Paz", 195, 285, 160, 277, 160, 260),
+          (5, "Brasília", 290, 293, 255, 295, 255, 310),
+          (6, "São Paulo", 387, 380, 435, 380, 435, 395),
+          (7, "Santiago", 178, 515, 178, 540, 178, 560),
+          (8, "Buenos Aires", 270, 485, 333, 480, 333, 500)]
 
 # armazena os elementos "linha" da rota encontrada       
 deletes = []
+
+#Função para exibir a heurística
+deletesHeuristica = []
+def exibirHeuristica():
+
+    for i in deletesHeuristica:
+        # se exister alguma heuristica escrita no mapa ela será deletada antes de exibir novos valores
+        canvas_mapa.delete(i)
+
+    destino = combobox_destino.get()
+    for i in eixoXY:
+        if destino == i[1]:
+            auxDestino = i[0]
+
+    heuristicaAtual = busca.heuristica
+
+    if deletes != []:
+        for index, nome, eixoX, eixoY, eixoXT, eixoYT, heuristicaX, heuristicaY in eixoXY: 
+            deletesHeuristica.append(0)
+            deletesHeuristica[-1] = canvas_mapa.create_text(heuristicaX, heuristicaY, fill="blue", text=heuristicaAtual[auxDestino][index], font = font_mapa) #inserindo heuristicas no mapa
+            print(heuristicaAtual[auxDestino][index])
 
 #função executada pelo botão BUSCAR
 def aoClicar():
     
     for i in deletes:
         # se exister alguma rota desenhada no mapa ela será deletada antes de traçar outra rota
+        canvas_mapa.delete(i)
+
+    for i in deletesHeuristica:
+        # se exister alguma heuristica escrita no mapa ela será deletada antes de exibir novos valores
         canvas_mapa.delete(i)
    
     caminho = busca.nomeToCodigo(combobox_origem.get(), combobox_destino.get())
@@ -77,21 +102,25 @@ combobox_origem = ttk.Combobox(aplication, values=lista_de_cidades) #combobox co
 combobox_origem.place(x=10, y=30)                                   #posição do combobox na tela
 
 label_destino = tk.Label(aplication, text="Destino:")               #label exibido como descrição do combobox
-label_destino.place(x=213, y=5)                                     #posição do label na tela
+label_destino.place(x=190, y=5)                                     #posição do label na tela
 combobox_destino = ttk.Combobox(aplication, values=lista_de_cidades)#combobox com as opções de cidades de onde a busca irá finalizar
-combobox_destino.place(x=213, y=30)                                 #posição do combobox na tela    
+combobox_destino.place(x=190, y=30)                                 #posição do combobox na tela    
 
 text_custo = tk.StringVar()               
 text_custo.set("Custo: ") 
 label_custo = tk.Label(aplication, textvariable=text_custo)         #label exibido como descrição do custo da rota         
-label_custo.place(x=416, y=5)
+label_custo.place(x=385, y=5)
 
-# botão que executar a função "aoClicar"
+# botão que executar a função "aoClicar()"
 button_viajar = tk.Button(aplication, command=aoClicar, width=10, height=1, text="Buscar")
-button_viajar.place(x=416, y=25) #posição do botão na tela
+button_viajar.place(x=385, y=25) #posição do botão na tela
+
+# botão que executar a função "exibirHeuristica()"
+button_heuristica = tk.Button(aplication, command=exibirHeuristica, width=10, height=1, text="heurística")
+button_heuristica.place(x=480, y=25) #posição do botão na tela
 
 # elemento que contem o mapa, cidades, e rotas
-canvas_mapa = tk.Canvas(width=570, height=701) #definição do tamanho do canvas
+canvas_mapa = tk.Canvas(width=550, height=701) #definição do tamanho do canvas
 canvas_mapa.place(x=10, y=60), #posição do canvas na tela
 
 imagem_mapa = tk.PhotoImage(file="mapa.png") # carregando a imagem do mapa
@@ -101,7 +130,7 @@ canvas_mapa.create_image(0, 0, image=imagem_mapa, anchor='nw') #adicionando a im
 font_mapa = font.Font(family='Comic Sans MS', size=13, weight='bold')
 
 #Desenhado as rotas no mapa
-for index, nome, eixoX, eixoY, eixoXT, eixoYT in eixoXY:            # buscando as cidades e suas coordenadas
+for index, nome, eixoX, eixoY, eixoXT, eixoYT, x, y in eixoXY:            # buscando as cidades e suas coordenadas
     for i in range(len(busca.aresta[index])):                       # buscando as arestas
         if busca.aresta[index][i] != 0:                             # verificando quais arestas uma cidade possui
             auxrota = []                                            # armazena iformações das arestas para desenhas as rotas
@@ -111,7 +140,7 @@ for index, nome, eixoX, eixoY, eixoXT, eixoYT in eixoXY:            # buscando a
             auxrota.append(eixoXY[i][3])
             canvas_mapa.create_line(auxrota, fill="black", width=3) # criando desenho das rotas de uma cidade, defindo cor e tamanho
             
-for index, nome, eixoX, eixoY, eixoXT, eixoYT in eixoXY:                                        #percorrendo listas com as cidades para adicionar pontos e nomes ao mapa
+for index, nome, eixoX, eixoY, eixoXT, eixoYT, x, y in eixoXY:                                        #percorrendo listas com as cidades para adicionar pontos e nomes ao mapa
     canvas_mapa.create_oval(eixoX-5, eixoY-5, eixoX+5, eixoY+5, fill="white", outline='black' ) #inserindo cidade (ponto) no mapa
     canvas_mapa.create_text(eixoXT, eixoYT, text=nome, font = font_mapa)                        #inserindo nomes das cidades no mapa
 
