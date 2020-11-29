@@ -10,15 +10,17 @@ import Algoritmo as busca       #arquivo com algoritmo da busca gulosa
 # posição (x, y) do ponto da cidade
 # posição (x, y) do nome da cidade
 
-eixoXY = [(0, 'Bogotá', 140, 161, 140, 145, 140, 128),
-          (1, "Quito", 95, 208, 65, 208, 65, 225),
-          (2, "Lima", 115, 300, 90, 298, 90, 315),
-          (3, "Manaus",  250, 185, 270, 170, 270, 152),
-          (4, "La Paz", 195, 285, 160, 277, 160, 260),
-          (5, "Brasília", 290, 293, 255, 295, 255, 310),
-          (6, "São Paulo", 387, 380, 435, 380, 435, 395),
-          (7, "Santiago", 178, 515, 178, 540, 178, 560),
-          (8, "Buenos Aires", 270, 485, 333, 480, 333, 500)]
+
+#coluna:  0     1            2    3    4    5    6    7
+eixoXY = [(0, 'Bogotá',      140, 161, 140, 145, 140, 128),
+          (1, "Quito",       95,  208, 65,  208, 65,  225),
+          (2, "Lima",        115, 300, 90,  298, 90,  315),
+          (3, "Manaus",      250, 185, 270, 170, 270, 152),
+          (4, "La Paz",      195, 285, 160, 277, 160, 260),
+          (5, "Brasília",    290, 293, 255, 295, 255, 310),
+          (6, "São Paulo",   387, 380, 435, 380, 435, 395),
+          (7, "Santiago",    178, 515, 178, 540, 178, 560),
+          (8, "Buenos Aires",270, 485, 333, 480, 333, 500)]
 
 # armazena os elementos "linha" da rota encontrada       
 deletes = []
@@ -42,8 +44,7 @@ def exibirHeuristica():
         for index, nome, eixoX, eixoY, eixoXT, eixoYT, heuristicaX, heuristicaY in eixoXY: 
             deletesHeuristica.append(0)
             deletesHeuristica[-1] = canvas_mapa.create_text(heuristicaX, heuristicaY, fill="blue", text=heuristicaAtual[auxDestino][index], font = font_mapa) #inserindo heuristicas no mapa
-            print(heuristicaAtual[auxDestino][index])
-
+            
 #função executada pelo botão BUSCAR
 def aoClicar():
     

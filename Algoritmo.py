@@ -23,16 +23,16 @@ vertice = [(0, 'Bogotá'),
 # Ex: aresta[3][4] => representa uma aresta entre a cidade de índice 3 (Manaus) 
 # e a cidade de índice 4 (La Paz). Seu o custo é 1733 km
 
-aresta = [[0, 728, 0, 1783, 2435, 0, 0, 0, 0],                      # 0 - Bogotá
-          [728, 0, 1326, 0, 0, 3777, 0, 0, 0],                      # 1 - Quito
-          [0, 1326, 0, 0, 1077, 0, 0, 0, 0],                        # 2 - Lima
-          [1783, 0, 0, 0, 1733, 1934, 2689, 0, 0],
-          [2435, 0, 1077, 1733, 0, 0, 0, 2236, 1904],
-          [0, 3777, 0, 1934, 0, 0, 876, 0, 2239],
-          [0, 0, 0, 2689, 0, 876, 0, 2582, 1673],
-          [0, 0, 0, 0, 2236, 0, 2582, 0, 1137],
-          [0, 0, 0, 0, 1904, 2239, 1673, 1139, 0],
-          [0, 0, 0, 0, 1904, 2239, 1673, 0, 0]]                     # 8 - Buenos Aires
+aresta = [  [0, 1, 0, 1, 1, 0, 0, 0, 0],    # 0 - bogotá
+            [1, 0, 1, 0, 0, 1, 0, 0, 0],   
+            [0, 1, 0, 0, 1, 0, 0, 0, 0],    
+            [1, 0, 0, 0, 1, 1, 1, 0, 0],
+            [1, 0, 1, 1, 0, 0, 0, 1, 1],
+            [0, 1, 0, 1, 0, 0, 1, 0, 1],
+            [0, 0, 0, 1, 0, 1, 0, 1, 1],
+            [0, 0, 0, 0, 1, 0, 1, 0, 1],
+            [0, 0, 0, 0, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 1, 1, 1, 0, 0]]    # 8 - Buenos Aires
 
 # Matriz heurística
 # Semelhante a lista de arestas, mas esta matriz precisa guardar as distâncias em linha reta 
@@ -123,9 +123,9 @@ def buscarMenor(lista):
     return menor[0]
 
 
-# [8,5,1,2]
 def calculaCusto(caminho):
     aux = 0
-    for i in range(len(caminho)-1):
-        aux = aresta[caminho[i]][caminho[i+1]] + aux
+    for i in caminho:
+        x = caminho[-1]
+        aux += heuristica[i][x]
     return aux
