@@ -21,18 +21,18 @@ vertice = [(0, 'Bogotá'),
 # em linha reta entre elas.
 
 # Ex: aresta[3][4] => representa uma aresta entre a cidade de índice 3 (Manaus) 
-# e a cidade de índice 4 (La Paz). Seu o custo é 1733 km
+# e a cidade de índice 4 (La Paz).
 
-aresta = [  [0, 1, 0, 1, 1, 0, 0, 0, 0],    # 0 - bogotá
-            [1, 0, 1, 0, 0, 1, 0, 0, 0],   
-            [0, 1, 0, 0, 1, 0, 0, 0, 0],    
-            [1, 0, 0, 0, 1, 1, 1, 0, 0],
-            [1, 0, 1, 1, 0, 0, 0, 1, 1],
-            [0, 1, 0, 1, 0, 0, 1, 0, 1],
-            [0, 0, 0, 1, 0, 1, 0, 1, 1],
-            [0, 0, 0, 0, 1, 0, 1, 0, 1],
-            [0, 0, 0, 0, 1, 1, 1, 1, 0],
-            [0, 0, 0, 0, 1, 1, 1, 0, 0]]    # 8 - Buenos Aires
+aresta = [[0, 728, 0, 1783, 2435, 0, 0, 0, 0],                      # 0 - Bogotá
+          [728, 0, 1326, 0, 0, 3777, 0, 0, 0],                      # 1 - Quito
+          [0, 1326, 0, 0, 1077, 0, 0, 0, 0],                        # 2 - Lima
+          [1783, 0, 0, 0, 1733, 1934, 2689, 0, 0],
+          [2435, 0, 1077, 1733, 0, 0, 0, 2236, 1904],
+          [0, 3777, 0, 1934, 0, 0, 876, 0, 2239],
+          [0, 0, 0, 2689, 0, 876, 0, 2582, 1673],
+          [0, 0, 0, 0, 2236, 0, 2582, 0, 1137],
+          [0, 0, 0, 0, 1904, 2239, 1673, 1139, 0],
+          [0, 0, 0, 0, 1904, 2239, 1673, 0, 0]]                     # 8 - Buenos Aires
 
 # Matriz heurística
 # Semelhante a lista de arestas, mas esta matriz precisa guardar as distâncias em linha reta 
@@ -112,7 +112,7 @@ def buscarRota(origem, destino):
     return caminho # por fim, a rota entre as cidades é retornada
 
 # recebe uma lista de tuplas, contendo o índice das cidades e suas distâncias até o destino,
-# devolve o índice da cidade com a menor distância entre o destino e 
+# devolve o índice da cidade com a menor distância entre o destino e a cidade vizinha da atual
 
 def buscarMenor(lista):    
     menor = lista[0]
@@ -123,9 +123,12 @@ def buscarMenor(lista):
     return menor[0]
 
 
+# recebe uma o vetor de caminhos, contendo o índices da cidades da rota,
+# devolve a soma dos custos entre cada cidade, da origem até o destino.
+
+
 def calculaCusto(caminho):
     aux = 0
-    for i in caminho:
-        x = caminho[-1]
-        aux += heuristica[i][x]
+    for i in range(len(caminho)-1):
+        aux += aresta[caminho[i]][caminho[i+1]]
     return aux
