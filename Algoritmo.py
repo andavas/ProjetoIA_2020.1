@@ -68,8 +68,6 @@ def nomeToCodigo(origem, destino):
 # e devolve uma lista com rota entre as cidades
 
 def buscarRota(origem, destino):
-    auxiliarVertice = [] 
-    auxiliarHeuristica = []
     caminho = []
     cheguei = False
 
