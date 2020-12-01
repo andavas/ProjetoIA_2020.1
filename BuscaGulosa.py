@@ -1,7 +1,7 @@
 import tkinter as tk        #utilizada para os objetos da janela
 from tkinter import ttk     #utilizada no objeto combobox
 from tkinter import font    #utilizado para os objetos de fontes
-import Algoritmo as busca       #arquivo com algoritmo da busca gulosa
+import Algoritmo as busca   #arquivo com algoritmo da busca gulosa
 
 # definindo coordenadas das cidades no plano cartesiano (mapa)
 # ORDEM:
@@ -24,69 +24,86 @@ eixoXY = [(0, 'Bogotá',      140, 161, 140, 145, 140, 128),
 
 # armazena os elementos "linha" da rota encontrada       
 deletes = []
+# armazena os elemtentos os valores das heurística da busca atual
+deletesHeuristica = []
 
 #Função para exibir a heurística
-deletesHeuristica = []
 def exibirHeuristica():
+    
+    if deletesHeuristica == []:
+        destino = combobox_destino.get()
+        for i in eixoXY:
+            if destino == i[1]:
+                auxDestino = i[0]
 
-    for i in deletesHeuristica:
-        # se exister alguma heuristica escrita no mapa ela será deletada antes de exibir novos valores
-        canvas_mapa.delete(i)
+        heuristicaAtual = busca.heuristica
 
-    destino = combobox_destino.get()
-    for i in eixoXY:
-        if destino == i[1]:
-            auxDestino = i[0]
-
-    heuristicaAtual = busca.heuristica
-
-    if deletes != []:
-        for index, nome, eixoX, eixoY, eixoXT, eixoYT, heuristicaX, heuristicaY in eixoXY: 
-            deletesHeuristica.append(0)
-            deletesHeuristica[-1] = canvas_mapa.create_text(heuristicaX, heuristicaY, fill="blue", text=heuristicaAtual[auxDestino][index], font = font_mapa) #inserindo heuristicas no mapa
+        if deletes != []:
+            for index, nome, eixoX, eixoY, eixoXT, eixoYT, heuristicaX, heuristicaY in eixoXY: 
+                deletesHeuristica.append(0)
+                #inserindo heuristicas no mapa
+                deletesHeuristica[-1] = canvas_mapa.create_text(heuristicaX, heuristicaY,                                                                fill="blue",
+                                                                text=heuristicaAtual[auxDestino][index],
+                                                                font = font_mapa) 
+    else:
+        for i in deletesHeuristica:
+            # se exister alguma heuristica escrita no mapa ela será deletada antes de exibir novos valores
+            canvas_mapa.delete(i)
+        deletesHeuristica.clear()
             
 #função executada pelo botão BUSCAR
 def aoClicar():
     
     for i in deletes:
-        # se exister alguma rota desenhada no mapa ela será deletada antes de traçar outra rota
+        # deletando rota da busca anterior
         canvas_mapa.delete(i)
 
     for i in deletesHeuristica:
-        # se exister alguma heuristica escrita no mapa ela será deletada antes de exibir novos valores
+        # sdeletando heurística da busca anterior
         canvas_mapa.delete(i)
+    deletesHeuristica.clear()
    
-    caminho = busca.nomeToCodigo(combobox_origem.get(), combobox_destino.get())
-    caminho = busca.buscarRota(caminho[0], caminho[1])
-    
-    custo = busca.calculaCusto(caminho)
-    custo = 'Custo: '+str(custo)+' km'
-    text_custo.set(custo) 
+    origem = combobox_origem.get()
+    destino = combobox_destino.get()
+    if origem != "" and destino != "":
+        #buscando rota a partir da origem e destino
+        #buscando cidades que serão percorridas
+        caminho = busca.nomeToCodigo(origem, destino)
+        caminho = busca.buscarRota(caminho[0], caminho[1])
+        
+        #calculando custo da rota
+        custo = busca.calculaCusto(caminho)
+        custo = 'Custo: '+str(custo)+' km'
+        text_custo.set(custo) 
 
-    rota = []                       # armazena cidades que serão percorridas
-    for i in caminho:               # busca coordenadas das cidades que serão percorridas
-        rota.append(eixoXY[i][2])   
-        rota.append(eixoXY[i][3])
+        #convertendo o caminho (cidades) em uma lista de coordenadas geográficas
+        rota = []                       
+        for i in caminho:               
+            rota.append(eixoXY[i][2])   #eixo X
+            rota.append(eixoXY[i][3])   #eixo Y
 
-    if(len(rota)>2): # se a origem for diferente do destino, os pontos das cidades e a rota entre elas serão pintadas de azul
-        for i in range(len(caminho)-1):
-            auxrota = rota[i*2:(i*2)+4]
+        #rota possui mais de uma cidade
+        if(len(rota)>2): 
+            for i in range(len(caminho)-1):
+                #fransformando em pares de coordenadas
+                auxrota = rota[i*2:(i*2)+4]
 
-            # pintando as rotas entre as cidades percorridas de azul
+                #adicionando rota ao mapa
+                deletes.append(0)
+                deletes[-1] = canvas_mapa.create_line(auxrota, fill="blue", width=3)
+
+                #destacando as cidades contidas na rota
+                deletes.append(0)
+                deletes[-1] = canvas_mapa.create_oval(rota[i*2]-5, rota[i*2+1]-5, rota[i*2]+5, rota[i*2+1]+5, fill="blue")
+
+            #destacando a cidade destino    
             deletes.append(0)
-            deletes[-1] = canvas_mapa.create_line(auxrota, fill="blue", width=3)
+            deletes[-1] = canvas_mapa.create_oval(rota[len(rota)-2]-5, rota[len(rota)-1]-5, rota[len(rota)-2]+5, rota[len(rota)-1]+5, fill="blue")
+                        
+        else:  #destacando cidade no mapa
+            deletes.append(0) 
+            deletes[-1] = canvas_mapa.create_oval(rota[0]-5, rota[1]-5, rota[0]+5, rota[1]+5, fill="blue")
 
-            #pintando de azul os pontos das cidades de origem e intermediárias
-            deletes.append(0)
-            deletes[-1] = canvas_mapa.create_oval(rota[i*2]-5, rota[i*2+1]-5, rota[i*2]+5, rota[i*2+1]+5, fill="blue") 
-
-        #pintando o ponto da cidade final de azul    
-        deletes.append(0)
-        deletes[-1] = canvas_mapa.create_oval(rota[len(rota)-2]-5, rota[len(rota)-1]-5, rota[len(rota)-2]+5, rota[len(rota)-1]+5, fill="blue")
-                    
-    else:  #adicionando um único ponto ao mapa quando vidade origem e destino são iguais.
-        deletes.append(0) 
-        deletes[-1] = canvas_mapa.create_oval(rota[0]-5, rota[1]-5, rota[0]+5, rota[1]+5, fill="blue")
 
 # criando o objeto "aplication" (que é uma janela)
 aplication = tk.Tk()
@@ -131,17 +148,17 @@ canvas_mapa.create_image(0, 0, image=imagem_mapa, anchor='nw') #adicionando a im
 font_mapa = font.Font(family='Comic Sans MS', size=13, weight='bold')
 
 #Desenhado as rotas no mapa
-for index, nome, eixoX, eixoY, eixoXT, eixoYT, x, y in eixoXY:            # buscando as cidades e suas coordenadas
-    for i in range(len(busca.aresta[index])):                       # buscando as arestas
+for index, nome, eixoX, eixoY, eixoXT, eixoYT, x, y in eixoXY:      # buscando as cidades e suas coordenadas
+    for i in range(len(busca.aresta[index])):                       # matriz de aresta definida no back
         if busca.aresta[index][i] != 0:                             # verificando quais arestas uma cidade possui
-            auxrota = []                                            # armazena iformações das arestas para desenhas as rotas
+            auxrota = []                                            # armazena iformações das arestas para desenhar as rotas
             auxrota.append(eixoX)
             auxrota.append(eixoY)
             auxrota.append(eixoXY[i][2])
             auxrota.append(eixoXY[i][3])
             canvas_mapa.create_line(auxrota, fill="black", width=3) # criando desenho das rotas de uma cidade, defindo cor e tamanho
             
-for index, nome, eixoX, eixoY, eixoXT, eixoYT, x, y in eixoXY:                                        #percorrendo listas com as cidades para adicionar pontos e nomes ao mapa
+for index, nome, eixoX, eixoY, eixoXT, eixoYT, x, y in eixoXY:                                  
     canvas_mapa.create_oval(eixoX-5, eixoY-5, eixoX+5, eixoY+5, fill="white", outline='black' ) #inserindo cidade (ponto) no mapa
     canvas_mapa.create_text(eixoXT, eixoYT, text=nome, font = font_mapa)                        #inserindo nomes das cidades no mapa
 
