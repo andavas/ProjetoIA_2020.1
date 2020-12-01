@@ -2,6 +2,7 @@ import tkinter as tk        #utilizada para os objetos da janela
 from tkinter import ttk     #utilizada no objeto combobox
 from tkinter import font    #utilizado para os objetos de fontes
 import Algoritmo as busca   #arquivo com algoritmo da busca gulosa
+from tkinter import messagebox
 
 # definindo coordenadas das cidades no plano cartesiano (mapa)
 # ORDEM:
@@ -103,6 +104,8 @@ def aoClicar():
         else:  #destacando cidade no mapa
             deletes.append(0) 
             deletes[-1] = canvas_mapa.create_oval(rota[0]-5, rota[1]-5, rota[0]+5, rota[1]+5, fill="blue")
+    else:
+        messagebox.showinfo("Erro", "Informe cidades de origem e destino!")
 
 
 # criando o objeto "aplication" (que é uma janela)
